@@ -1,5 +1,7 @@
 <template>
-  <div class="entry-title d-flex justify-content-between p-2">
+  
+  <template v-if="entry">
+    <div class="entry-title d-flex justify-content-between p-2">
       <div>
           <span class="text-success fs-3 fw-bold">{{ day }}</span>
           <span class="mx-1 fs-3">{{ month }}</span>
@@ -17,22 +19,25 @@
           <i class="fa fa-upload"></i>
         </button>
       </div>
-  </div>
+    </div>
 
-  <hr>
+    <hr>
 
-  <div class="d-flex flex-column px-3 h-75">
-    <textarea v-model="entry.text" placeholder="What happened today?"></textarea>
-  </div>
+    <div class="d-flex flex-column px-3 h-75">
+      <textarea v-model="entry.text" placeholder="What happened today?"></textarea>
+    </div>
+
+    <img
+        src="https://images.unsplash.com/photo-1605979257913-1704eb7b6246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+        alt="entry-picture"
+
+        class="img-thumbnail">
+  </template>
 
   <Fab icon="fa-save" />
-
-  <img
-      src="https://images.unsplash.com/photo-1605979257913-1704eb7b6246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-      alt="entry-picture"
-      class="img-thumbnail">
-
+  
 </template>
+
 
 <script>
 import { defineAsyncComponent } from 'vue'
@@ -73,12 +78,17 @@ export default {
       loadEntry() {
         const entry = this.getEntryById( this.id )
 
-        if ( !entry ) this.$router.push({ name: 'no-entry' })
+        if ( !entry ) return this.$router.push({ name: 'no-entry' })
         this.entry = entry
       }
     },
     created() {
       this.loadEntry()
+    },
+    watch: {
+      id() {
+        this.loadEntry()
+      }
     }
 }
 </script>
