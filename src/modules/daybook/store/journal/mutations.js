@@ -18,6 +18,7 @@ export const updateEntry = ( state, entry ) => {
 }
 
 
-export const addEntry = ( /*state*/ ) => {
+export const addEntry = ( state, entry ) => {
+    state.entries = [ entry, ...state.entries ]
 
 }
