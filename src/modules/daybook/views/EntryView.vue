@@ -45,6 +45,7 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 import getDayMonthYear from '../helpers/getDayMonthYear'
 
 export default {
@@ -95,18 +96,41 @@ export default {
         this.entry = entry
       },
       async saveEntry() {
+        new Swal({
+          title: 'Please wait',
+          allowOutsideClick: false
+        })
+        Swal.showLoading()
+
         if ( this.entry.id ) {
           await this.updateEntry(this.entry)
         } else {
           const id = await this.createEntry(this.entry)
           this.$router.push({ name: 'entry', params: { id } })
         }
+
+        Swal.fire('Saving', 'Entry was successfully saved', 'success')
       },
       async onDeleteEntry() {
-        console.log('delete: ', this.entry)
+        const { isConfirmed } = await Swal.fire({
+          title: 'Are you sure you want to delete this entry?',
+          text: 'Once it is deleted you cannot get it back',
+          showDenyButton: true,
+          confirmButtonText: 'Yes, I am sure'
+        })
 
-        await this.deleteEntry( this.entry.id )
-        this.$router.push({ name: 'no-entry'})
+        if ( isConfirmed ) {
+          new Swal({
+            title: 'Please wait',
+            allowOutsideClick: false
+          })
+          Swal.showLoading()
+
+          await this.deleteEntry( this.entry.id )
+          this.$router.push({ name: 'no-entry'})
+
+          Swal.fire('Deleted', '', 'success')
+        }
       }
     },
     created() {
