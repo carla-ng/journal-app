@@ -35,12 +35,12 @@
       <textarea v-model="entry.text" placeholder="What happened today?"></textarea>
     </div>
 
-<!--
     <img
-        src="https://images.unsplash.com/photo-1605979257913-1704eb7b6246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+        v-if="entry.picture && !localImage"
+        :src="entry.picture"
         alt="entry-picture"
         class="img-thumbnail">
--->
+
     <img
         v-if="localImage"
         :src="localImage"
@@ -61,7 +61,9 @@
 import { defineAsyncComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import Swal from 'sweetalert2'
+
 import getDayMonthYear from '../helpers/getDayMonthYear'
+import uploadImage from '../helpers/uploadImage'
 
 export default {
     props: {
@@ -121,6 +123,9 @@ export default {
         })
         Swal.showLoading()
 
+        const picture = await uploadImage( this.file )
+        this.entry.picture = picture
+
         if ( this.entry.id ) {
           await this.updateEntry(this.entry)
         } else {
@@ -128,6 +133,7 @@ export default {
           this.$router.push({ name: 'entry', params: { id } })
         }
 
+        this.file = null
         Swal.fire('Saving', 'Entry was successfully saved', 'success')
       },
 
@@ -157,8 +163,8 @@ export default {
         const file = event.target.files[0]
 
         if ( !file ) {
-          //this.localImage = null
-          //this.file = null
+          this.localImage = null
+          this.file = null
           return
         }
 
