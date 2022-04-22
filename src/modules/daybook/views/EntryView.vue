@@ -9,12 +9,20 @@
       </div>
 
       <div>
+
+        <input type="file"
+               @change="onSelectedImage"
+               ref="imageSelector"
+               v-show="false"
+               accept="image/*">
+
         <button v-if="this.entry" class="btn btn-danger mx-2" @click="onDeleteEntry">
           Delete
           <i class="fa fa-trash-alt"></i>
         </button>
 
-        <button class="btn btn-primary">
+        <button class="btn btn-primary"
+                @click="onSelectImage">
           Upload picture
           <i class="fa fa-upload"></i>
         </button>
@@ -27,11 +35,18 @@
       <textarea v-model="entry.text" placeholder="What happened today?"></textarea>
     </div>
 
+<!--
     <img
         src="https://images.unsplash.com/photo-1605979257913-1704eb7b6246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
         alt="entry-picture"
-
         class="img-thumbnail">
+-->
+    <img
+        v-if="localImage"
+        :src="localImage"
+        alt="entry-picture"
+        class="img-thumbnail">
+
   </template>
 
   <Fab
@@ -60,7 +75,9 @@ export default {
     },
     data() {
       return {
-        entry: null
+        entry: null,
+        localImage: null,
+        file: null
       }
     },
     computed: {
@@ -80,6 +97,7 @@ export default {
     },
     methods: {
       ...mapActions('journal', ['updateEntry','createEntry','deleteEntry']),
+
       loadEntry() {
         let entry;
 
@@ -95,6 +113,7 @@ export default {
         
         this.entry = entry
       },
+
       async saveEntry() {
         new Swal({
           title: 'Please wait',
@@ -111,6 +130,7 @@ export default {
 
         Swal.fire('Saving', 'Entry was successfully saved', 'success')
       },
+
       async onDeleteEntry() {
         const { isConfirmed } = await Swal.fire({
           title: 'Are you sure you want to delete this entry?',
@@ -131,7 +151,28 @@ export default {
 
           Swal.fire('Deleted', '', 'success')
         }
+      },
+
+      onSelectedImage( event ) {
+        const file = event.target.files[0]
+
+        if ( !file ) {
+          //this.localImage = null
+          //this.file = null
+          return
+        }
+
+        this.file = file
+
+        const fr = new FileReader()
+        fr.onload = () => this.localImage = fr.result
+        fr.readAsDataURL( file )
+      },
+
+      onSelectImage() {
+        this.$refs.imageSelector.click()
       }
+
     },
     created() {
       this.loadEntry()
