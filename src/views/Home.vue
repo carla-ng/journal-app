@@ -2,11 +2,9 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
 
-    <h1>Hola Mundo</h1>
+    <h1>Welcome to your journal!</h1>
 
-    <button @click="goToDaybook" class="btn btn-primary">Primary</button>
-    <button @click="goToDaybook" class="btn btn-secondary">Secondary</button>
-    <button @click="goToDaybook" class="btn btn-success">Success</button>
+    <button @click="goToDaybook" class="btn btn-primary">Open Journal</button>
     
   </div>
 </template>
