@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home View tests Component should be rendered correctly 1`] = `
+<div class="home" style="margin: 50px;">
+  <h1>Journal App</h1><button class="btn btn-primary" style="margin-top: 12px;">Go to journal</button>
+</div>
+`;
