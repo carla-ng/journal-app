@@ -1,11 +1,7 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-
-    <h1>Welcome to your journal!</h1>
-
-    <button @click="goToDaybook" class="btn btn-primary">Open Journal</button>
-    
+  <div class="home" style="margin: 50px;">
+    <h1>Journal App</h1>
+    <button @click="goToDaybook" class="btn btn-primary" style="margin-top: 12px;">Go to journal</button>
   </div>
 </template>
 
