@@ -73,4 +73,18 @@ describe('Vuex - Journal Module tests', () => {
         ).toBeFalsy()
     })
 
+
+    // Getters
+    test('Getters: getEntriesByTerm getEntryById', () => {
+        const store = createVuexStore( journalState )
+
+        const [ entry1, entry2 ] = journalState.entries
+
+        expect( store.getters['journal/getEntriesByTerm']('').length ).toBe(2)
+        expect( store.getters['journal/getEntriesByTerm']('example').length ).toBe(1)
+        expect( store.getters['journal/getEntriesByTerm']('example') ).toEqual([ entry2 ])
+
+        expect( store.getters['journal/getEntryById']('ABC123') ).toEqual( entry1 )
+    })
+
 })
