@@ -39,4 +39,21 @@ describe('Vuex - Journal Module tests', () => {
 
     })
 
+    test('Mutation: updateEntry', () => {
+        const store = createVuexStore( journalState )
+
+        const updateEntry = {
+            id: "ABC123",
+            date: "Sat Jul 18 2021",
+            text: "Hi from tests file"
+        }
+
+        store.commit('journal/updateEntry', updateEntry)
+
+        expect( store.state.journal.entries.length ).toBe(2)
+        expect(
+            store.state.journal.entries.find( e => e.id === updateEntry.id )
+        ).toEqual( updateEntry )
+    })
+
 })
