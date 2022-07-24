@@ -1,4 +1,6 @@
-# journal-app
+# Journal App
+Journal app made with Vue.
+
 
 ## Project setup
 ```
@@ -22,3 +24,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+
+## Credits
+[Fernando Herrera](https://www.udemy.com/course/vuejs-fh/)
